@@ -24,5 +24,9 @@
         <table schema="testDB" tableName="Users" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+
+        <table schema="testDB" tableName="user_detail" domainObjectName="UserDetail">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
