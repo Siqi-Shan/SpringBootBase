@@ -1,6 +1,6 @@
 package com.kshan.springtest.controller;
 
-import com.kshan.springtest.domain.User;
+import com.kshan.springtest.model.User;
 import com.kshan.springtest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +49,16 @@ public class UserController {
         if (currentUser != null) {
             userService.deleteUser(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<User> getUserWithDetails(@PathVariable("id") Integer id) {
+        User user = userService.getUserWithDetails(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

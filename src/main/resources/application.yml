@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testDB?useSSL=false
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  type-aliases-package: com.kshan.springtest.model
+  mapper-locations: classpath:mapping/*.xml
+  configuration:
+      map-underscore-to-camel-case: true
+      use-generated-keys: true
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.example.springboot1.dao: debug
