@@ -26,7 +26,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
-        <table schema="testDB" tableName="user_detail" domainObjectName="UserDetailDAO">
+        <table schema="testDB" tableName="UserDetail" domainObjectName="UserDetailDAO">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

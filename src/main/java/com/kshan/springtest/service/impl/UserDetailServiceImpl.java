@@ -1,40 +1,35 @@
 package com.kshan.springtest.service.impl;
 
 import com.kshan.springtest.model.UserDetail;
-import com.kshan.springtest.dao.UserDetailMapper;
+import com.kshan.springtest.dao.UserDetailDAO;
 import com.kshan.springtest.service.UserDetailService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailService {
-    private final UserDetailMapper userDetailMapper;
+    private final UserDetailDAO userDetailDAO;
 
-    public UserDetailServiceImpl(UserDetailMapper userDetailMapper){
-        this.userDetailMapper = userDetailMapper;
+    public UserDetailServiceImpl(UserDetailDAO userDetailDAO){
+        this.userDetailDAO = userDetailDAO;
     }
 
     @Override
     public UserDetail getUserDetail(int id) {
-        return userDetailMapper.selectByPrimaryKey(id);
+        return userDetailDAO.selectByPrimaryKey(id);
     }
 
     @Override
     public void saveUserDetail(UserDetail userDetail) {
-        userDetailMapper.insert(userDetail);
+        userDetailDAO.insert(userDetail);
     }
 
     @Override
     public void updateUserDetail(UserDetail userDetail) {
-        userDetailMapper.updateByPrimaryKeySelective(userDetail);
+        userDetailDAO.updateByPrimaryKeySelective(userDetail);
     }
 
     @Override
     public void deleteUserDetail(int id) {
-        userDetailMapper.deleteByPrimaryKey(id);
-    }
-
-    @Override
-    public UserDetail getUserDetailByUserId(int userId) {
-        return userDetailMapper.selectByUserId(userId);
+        userDetailDAO.deleteByPrimaryKey(id);
     }
 }

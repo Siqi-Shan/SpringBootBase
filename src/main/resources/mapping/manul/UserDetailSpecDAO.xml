@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kshan.springtest.dao.UserDetailSpecDAO">
+    <resultMap id="UserDetailDTO" type="com.kshan.springtest.dto.UserDetailDTO">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <collection property="userDetails" ofType="com.kshan.springtest.model.UserDetail">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="address" column="address" />
+            <result property="phoneNumber" column="phone_number" />
+        </collection>
+    </resultMap>
+
+    <select id="getUserDetailByUserId" parameterType="com.kshan.springtest.dto.UserDetailDTO" resultMap="UserDetailDTO">
+        SELECT ud.user_id, ud.id, ud.address, ud.phone_number
+        FROM UserDetail ud
+        <if test="userId != null">
+            WHERE ud.user_id = #{userId}
+        </if>
+        LIMIT #{startNum}, #{pageSize}
+    </select>
+</mapper>

@@ -7,6 +7,4 @@ public interface UserService {
     void saveUser(User user);
     void updateUser(User user);
     void deleteUser(Integer id);
-    User getUserWithDetails(Integer id);
-
 }

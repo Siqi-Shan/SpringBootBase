@@ -32,10 +32,4 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Integer id) {
         userDAO.deleteByPrimaryKey(id);
     }
-
-    @Override
-    public User getUserWithDetails(Integer id) {
-        return UserDAO.selectUserWithDetails(id);
-    }
-
 }

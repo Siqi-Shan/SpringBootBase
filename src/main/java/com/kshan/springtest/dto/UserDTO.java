@@ -3,6 +3,8 @@ package com.kshan.springtest.dto;
 import com.kshan.springtest.model.UserDetail;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class UserDTO {
     private Integer id;
@@ -11,5 +13,5 @@ public class UserDTO {
 
     private String email;
 
-    private UserDetail userDetail;
+    private List<UserDetail> userDetails;
 }

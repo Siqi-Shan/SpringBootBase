@@ -1,66 +1,74 @@
 package com.kshan.springtest.controller;
 
+import com.kshan.springtest.common.util.ResultModel;
+import com.kshan.springtest.dto.UserDTO;
 import com.kshan.springtest.model.User;
+import com.kshan.springtest.service.UserDetailListService;
+import com.kshan.springtest.service.UserDetailService;
 import com.kshan.springtest.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final UserDetailListService userDetailListService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService, UserDetailListService userDetailListService){
         this.userService = userService;
+        this.userDetailListService = userDetailListService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Integer id) {
+    public ResultModel getUser(@PathVariable("id") Integer id) {
         User user = userService.getUserById(id);
         if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return ResultModel.success("User fetched successfully.", user);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResultModel.error("User not found.");
         }
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResultModel addUser(@RequestBody User user) {
         userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return ResultModel.success("User created successfully.", user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
+    public ResultModel updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
         User currentUser = userService.getUserById(id);
         if (currentUser != null) {
             user.setId(id); // Make sure the updated user has the same ID
             userService.updateUser(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return ResultModel.success("User updated successfully.", user);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResultModel.error("User not found.");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
+    public ResultModel deleteUser(@PathVariable("id") Integer id) {
         User currentUser = userService.getUserById(id);
         if (currentUser != null) {
             userService.deleteUser(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+            return ResultModel.success("User deleted successfully.", currentUser);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResultModel.error("User not found.");
         }
     }
 
     @GetMapping("/{id}/details")
-    public ResponseEntity<User> getUserWithDetails(@PathVariable("id") Integer id) {
-        User user = userService.getUserWithDetails(id);
+    public ResultModel getUserWithDetails(@PathVariable("id") Integer id) {
+        UserDTO user = userDetailListService.selectUserWithDetails(id);
         if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return ResultModel.success("User details fetched successfully.", user);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResultModel.error("User not found.");
         }
     }
 }

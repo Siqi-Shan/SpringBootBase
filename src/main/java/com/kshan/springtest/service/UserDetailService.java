@@ -7,5 +7,4 @@ public interface UserDetailService {
     void saveUserDetail(UserDetail userDetail);
     void updateUserDetail(UserDetail userDetail);
     void deleteUserDetail(int id);
-    UserDetail getUserDetailByUserId(int userId);
 }

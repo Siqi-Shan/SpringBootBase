@@ -5,18 +5,18 @@
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="email" jdbcType="VARCHAR" property="email" />
-        <association property="userDetail" javaType="com.kshan.springtest.model.UserDetail">
+        <collection property="userDetails" ofType="com.kshan.springtest.model.UserDetail">
             <id property="id" column="user_detail_id" />
             <result property="userId" column="user_id" />
             <result property="address" column="address" />
             <result property="phoneNumber" column="phone_number" />
-        </association>
+        </collection>
     </resultMap>
 
     <select id="selectUserWithDetails" parameterType="java.lang.Integer" resultMap="UserDTO">
         SELECT u.*, ud.id as user_detail_id, ud.user_id, ud.address, ud.phone_number
         FROM Users u
-                 LEFT JOIN user_detail ud ON u.id = ud.user_id
+                 LEFT JOIN UserDetail ud ON u.id = ud.user_id
         WHERE u.id = #{id}
     </select>
 </mapper>

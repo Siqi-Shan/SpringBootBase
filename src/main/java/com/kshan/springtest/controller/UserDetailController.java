@@ -1,5 +1,6 @@
 package com.kshan.springtest.controller;
 
+import com.kshan.springtest.common.util.ResultModel;
 import com.kshan.springtest.model.UserDetail;
 import com.kshan.springtest.service.UserDetailService;
 import org.springframework.http.ResponseEntity;
@@ -15,31 +16,42 @@ public class UserDetailController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDetail> getUserDetail(@PathVariable("id") int id) {
-        return ResponseEntity.ok(userDetailService.getUserDetail(id));
+    public ResultModel<UserDetail> getUserDetail(@PathVariable("id") int id) {
+        UserDetail userDetail = userDetailService.getUserDetail(id);
+        if (userDetail != null) {
+            return ResultModel.success("User detail fetched successfully.", userDetail);
+        } else {
+            return ResultModel.error("User detail not found.");
+        }
     }
 
     @PostMapping
-    public ResponseEntity<UserDetail> saveUserDetail(@RequestBody UserDetail userDetail) {
+    public ResultModel<UserDetail> saveUserDetail(@RequestBody UserDetail userDetail) {
         userDetailService.saveUserDetail(userDetail);
-        return ResponseEntity.ok(userDetail);
+        return ResultModel.success("User detail saved successfully.", userDetail);
     }
 
     @PutMapping
-    public ResponseEntity<UserDetail> updateUserDetail(@RequestBody UserDetail userDetail) {
+    public ResultModel<UserDetail> updateUserDetail(@RequestBody UserDetail userDetail) {
         userDetailService.updateUserDetail(userDetail);
-        return ResponseEntity.ok(userDetail);
+        return ResultModel.success("User detail updated successfully.", userDetail);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserDetail(@PathVariable("id") int id) {
-        userDetailService.deleteUserDetail(id);
-        return ResponseEntity.noContent().build();
+    public ResultModel deleteUserDetail(@PathVariable("id") int id) {
+        UserDetail currentUserDetail = userDetailService.getUserDetail(id);
+        if (currentUserDetail != null) {
+            userDetailService.deleteUserDetail(id);
+            return ResultModel.success("User detail deleted successfully.", currentUserDetail);
+        } else {
+            return ResultModel.error("User detail not found.");
+        }
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<UserDetail> getUserDetailByUserId(@PathVariable int userId) {
-        UserDetail userDetail = userDetailService.getUserDetailByUserId(userId);
-        return ResponseEntity.ok(userDetail);
-    }
+
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<UserDetail> getUserDetailByUserId(@PathVariable int userId) {
+//        UserDetail userDetail = userDetailService.getUserDetailByUserId(userId);
+//        return ResponseEntity.ok(userDetail);
+//    }
 }
